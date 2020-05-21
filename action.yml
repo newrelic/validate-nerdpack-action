@@ -1,0 +1,14 @@
+name: 'validate-nerdpack-action'
+description: 'Checks for presence of Open Source files and '
+author: ''
+branding:
+  icon: watch
+  color: green
+inputs:
+  files:
+    description: 'Array describing the files'
+  path:
+    description: 'Directory to run action from'
+runs:
+  using: 'node12'
+  main: 'lib/main.js'
