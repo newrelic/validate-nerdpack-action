@@ -65,12 +65,30 @@ async function run() {
 
     if (result.length > 0) {
       core.setFailed(
-        `SUMMARY -- These files do not exist:\n ${result.join(', ')}`
+        `SUMMARY -- These files do not exist: ${result.join(', ')}`
       );
     }
   } catch (error) {
     core.setFailed(`Error occurred run | ${error.message}`);
   }
+}
+
+async function checkFileExists(inputPath, file) {
+  const pathedFile = path.join(inputPath, file);
+
+  const fileExists = await fsp
+    .access(pathedFile)
+    .then(() => true)
+    .catch(() => false);
+
+  // eslint-disable-next-line no-console
+  console.debug(`Pathed file: ${pathedFile} | Exists: ${fileExists}`);
+  // if (!fileExists) {
+  //   doesntExist.push(pathedFile);
+  //   return;
+  // }
+
+  return !fileExists ? pathedFile : null;
 }
 
 /**
@@ -100,23 +118,26 @@ async function validateNerdpackFiles() {
     const fileList =
       inputFiles.length > 0 ? combinedFileList : DEFAULT_NERDPACK_FILES;
 
-    const doesntExist = [];
-    await Promise.all(
-      fileList.map(async (file) => {
-        const pathedFile = path.join(inputPath, file);
+    // const doesntExist = [];
+    const doesntExist = await Promise.all(
+      fileList.map(
+        (file) => checkFileExists(inputPath, file)
+        //   async (file) => {
+        //   const pathedFile = path.join(inputPath, file);
 
-        const fileExists = await fsp
-          .access(pathedFile)
-          .then(() => true)
-          .catch(() => false);
+        //   const fileExists = await fsp
+        //     .access(pathedFile)
+        //     .then(() => true)
+        //     .catch(() => false);
 
-        // eslint-disable-next-line no-console
-        console.debug(`Pathed file: ${pathedFile} | Exists: ${fileExists}`);
-        if (!fileExists) {
-          doesntExist.push(pathedFile);
-        }
-      })
-    );
+        //   // eslint-disable-next-line no-console
+        //   console.debug(`Pathed file: ${pathedFile} | Exists: ${fileExists}`);
+        //   if (!fileExists) {
+        //     doesntExist.push(pathedFile);
+        //   }
+        // }
+      )
+    ).filter((f) => f); // check if this is not null
 
     if (doesntExist.length > 0) {
       core.setFailed(
@@ -199,6 +220,10 @@ async function validateCatalogFiles() {
   }
 }
 
+/**
+ * If the catalog/screenshots directory exists, this validates that at least
+ * one screenshot exists.
+ */
 async function validateScreenshotsDir() {
   // eslint-disable-next-line no-console
   console.log(`Validating catalog/screenshot directory`);
