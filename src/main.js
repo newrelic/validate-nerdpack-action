@@ -49,21 +49,23 @@ async function validateNerdpackFiles() {
       inputFiles.length > 0 ? combinedFileList : DEFAULT_NERDPACK_FILES;
 
     const doesntExist = [];
-    fileList.forEach((file) => {
-      const pathedFile = path.join(inputPath, file);
+    await Promise.all(
+      fileList.map(async (file) => {
+        const pathedFile = path.join(inputPath, file);
 
-      // eslint-disable-next-line no-console
-      console.debug(`Pathed file: ${pathedFile}`);
+        // eslint-disable-next-line no-console
+        console.debug(`Pathed file: ${pathedFile}`);
 
-      // if (!fs.existsSync(pathedFile)) {
-      const fileExists = fs.promises
-        .access(pathedFile)
-        .then(() => true)
-        .catch(() => false);
-      if (!fileExists) {
-        doesntExist.push(pathedFile);
-      }
-    });
+        // if (!fs.existsSync(pathedFile)) {
+        const fileExists = await fsp
+          .access(pathedFile)
+          .then(() => true)
+          .catch(() => false);
+        if (!fileExists) {
+          doesntExist.push(pathedFile);
+        }
+      })
+    );
     // if (doesntExist.length > 0) {
     //   core.setFailed(`These files do not exist: ${doesntExist.join(', ')}`);
     // }
@@ -90,28 +92,30 @@ async function validateCatalogFiles() {
     const catalogPath = path.join(inputPath, 'catalog');
     const defaultEmptyReturn = [];
     // if (fs.existsSync(catalogPath)) {
-    const catalogDirExists = fs.promises
+    const catalogDirExists = await fsp
       .access(catalogPath)
       .then(() => true)
       .catch(() => false);
     if (catalogDirExists) {
       // First check catalog files
       const doesntExist = [];
-      CATALOG_FILES.forEach(function (file) {
-        const pathedFile = path.join(inputPath, file);
+      await Promise.all(
+        CATALOG_FILES.map(async (file) => {
+          const pathedFile = path.join(inputPath, file);
 
-        // eslint-disable-next-line no-console
-        console.debug(`Pathed file: ${pathedFile}`);
+          // eslint-disable-next-line no-console
+          console.debug(`Pathed file: ${pathedFile}`);
 
-        // if (!fs.existsSync(pathedFile)) {
-        const fileExists = fs.promises
-          .access(this._temporaryStorage)
-          .then(() => true)
-          .catch(() => false);
-        if (!fileExists) {
-          doesntExist.push(pathedFile);
-        }
-      });
+          // if (!fs.existsSync(pathedFile)) {
+          const fileExists = fs.promises
+            .access(this._temporaryStorage)
+            .then(() => true)
+            .catch(() => false);
+          if (!fileExists) {
+            doesntExist.push(pathedFile);
+          }
+        })
+      );
       // if (doesntExist.length > 0) {
       //   core.setFailed(`These files do not exist: ${doesntExist.join(', ')}`);
       // }
