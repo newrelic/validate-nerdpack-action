@@ -152,7 +152,7 @@ async function validateCatalogFiles() {
           const pathedFile = path.join(inputPath, file);
 
           // if (!fs.existsSync(pathedFile)) {
-          const fileExists = fsp
+          const fileExists = await fsp
             .access(pathedFile)
             .then(() => true)
             .catch(() => false);
