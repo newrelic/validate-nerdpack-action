@@ -138,6 +138,10 @@ async function validatePackageJson() {
     const inputPath = core.getInput('path') || process.env.PATH || '';
     const packageJsonPath = path.join(workspaceDir, inputPath, 'package.json');
 
+    console.log(`workspaceDir: ${workspaceDir}`);
+    console.log(`inputPath: ${inputPath}`);
+    console.log(`packageJsonPath: ${packageJsonPath}`);
+
     const rawPackageJsonData = await fsp.readFile(packageJsonPath);
     const packageJson = JSON.parse(rawPackageJsonData);
 
@@ -161,7 +165,7 @@ async function validatePackageJson() {
       core.setFailed('eslint-fix missing from package.json#scripts');
     }
   } catch (error) {
-    core.setFailed(error.message);
+    core.setFailed(`Error occurred validatePackageJson | ${error.message}`);
   }
 }
 
