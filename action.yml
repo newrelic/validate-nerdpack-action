@@ -1,14 +1,17 @@
-name: 'validate-nerdpack-action'
-description: 'Checks for presence of Open Source files and '
-author: ''
+name: "validate-nerdpack-action"
+description: "Checks for presence of Open Source files and commands"
+author: ""
 branding:
-  icon: watch
+  icon: check-square
   color: green
 inputs:
   files:
-    description: 'Array describing the files'
+    description: "Comma-separated list of files to validate existence for. These are appended to default list of files, unless `override` flag is set to true."
   path:
-    description: 'Directory to run action from'
+    description: "Sets the directory the Action will run from."
+  override:
+    default: "false"
+    description: "By default, the files option will append to the default list of files being checked. This flag allows overwriting the whole list."
 runs:
-  using: 'node12'
-  main: 'lib/main.js'
+  using: "node12"
+  main: "dist/main.js"
