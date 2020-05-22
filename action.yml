@@ -1,17 +1,20 @@
-name: "validate-nerdpack-action"
-description: "Checks for presence of Open Source files and commands"
-author: ""
+name: "Validate Nerdpack Action"
+description: "Checks for presence of New Relic standard Open Source files, New Relic One Catalog metadata, and package script commands."
+author: "New Relic"
 branding:
   icon: check-square
   color: green
 inputs:
   files:
     description: "Comma-separated list of files to validate existence for. These are appended to default list of files, unless `override` flag is set to true."
+    required: false
   path:
     description: "Sets the directory the Action will run from."
+    required: false
   override:
-    default: "false"
     description: "By default, the files option will append to the default list of files being checked. This flag allows overwriting the whole list."
+    required: false
+    default: false
 runs:
   using: "node12"
-  main: "dist/main.js"
+  main: "./dist/main.js"
