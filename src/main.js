@@ -9,10 +9,12 @@ async function run() {
   try {
     await validatePackageJson();
 
-    const missingNerdpackFiles = validateNerdpackFiles();
+    const missingNerdpackFiles = await validateNerdpackFiles();
     console.log(`missingNerdpackFiles: ${missingNerdpackFiles}`);
+
     const missingCatalogFiles = await validateCatalogFiles();
     console.log(`missingCatalogFiles: ${missingCatalogFiles}`);
+
     const result = [...missingNerdpackFiles, ...missingCatalogFiles];
     if (result.length > 0) {
       core.setFailed(`These files do not exist: ${result.join(', ')}`);
@@ -32,7 +34,7 @@ async function run() {
  * directory and executing this check. It's worth noting that the `existsSync`
  * below is relative to github_workspace/${inputPath}
  */
-function validateNerdpackFiles() {
+async function validateNerdpackFiles() {
   try {
     const inputPath = core.getInput('path') || '';
     const inputFiles = core.getInput('files') || process.env.FILES || '';
@@ -53,7 +55,12 @@ function validateNerdpackFiles() {
       // eslint-disable-next-line no-console
       console.debug(`Pathed file: ${pathedFile}`);
 
-      if (!fs.existsSync(pathedFile)) {
+      // if (!fs.existsSync(pathedFile)) {
+      const fileExists = fs.promises
+        .access(pathedFile)
+        .then(() => true)
+        .catch(() => false);
+      if (!fileExists) {
         doesntExist.push(pathedFile);
       }
     });
@@ -82,7 +89,12 @@ async function validateCatalogFiles() {
 
     const catalogPath = path.join(inputPath, 'catalog');
     const defaultEmptyReturn = [];
-    if (fs.existsSync(catalogPath)) {
+    // if (fs.existsSync(catalogPath)) {
+    const catalogDirExists = fs.promises
+      .access(catalogPath)
+      .then(() => true)
+      .catch(() => false);
+    if (catalogDirExists) {
       // First check catalog files
       const doesntExist = [];
       CATALOG_FILES.forEach(function (file) {
@@ -91,7 +103,12 @@ async function validateCatalogFiles() {
         // eslint-disable-next-line no-console
         console.debug(`Pathed file: ${pathedFile}`);
 
-        if (!fs.existsSync(pathedFile)) {
+        // if (!fs.existsSync(pathedFile)) {
+        const fileExists = fs.promises
+          .access(this._temporaryStorage)
+          .then(() => true)
+          .catch(() => false);
+        if (!fileExists) {
           doesntExist.push(pathedFile);
         }
       });

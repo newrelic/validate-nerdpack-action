@@ -54,15 +54,21 @@ const fs = __webpack_require__(747);
 const { DEFAULT_NERDPACK_FILES, CATALOG_FILES } = __webpack_require__(648);
 
 async function run() {
-  await validatePackageJson();
+  try {
+    await validatePackageJson();
 
-  const missingNerdpackFiles = await validateNerdpackFiles();
+    const missingNerdpackFiles = await validateNerdpackFiles();
+    console.log(`missingNerdpackFiles: ${missingNerdpackFiles}`);
 
-  const missingCatalogFiles = await validateCatalogFiles();
+    const missingCatalogFiles = await validateCatalogFiles();
+    console.log(`missingCatalogFiles: ${missingCatalogFiles}`);
 
-  const result = [...missingNerdpackFiles, ...missingCatalogFiles];
-  if (result.length > 0) {
-    core.setFailed(`These files do not exist: ${result.join(', ')}`);
+    const result = [...missingNerdpackFiles, ...missingCatalogFiles];
+    if (result.length > 0) {
+      core.setFailed(`These files do not exist: ${result.join(', ')}`);
+    }
+  } catch (error) {
+    core.setFailed(`Error occurred run | ${error.message}`);
   }
 }
 
@@ -97,7 +103,12 @@ async function validateNerdpackFiles() {
       // eslint-disable-next-line no-console
       console.debug(`Pathed file: ${pathedFile}`);
 
-      if (!fs.existsSync(pathedFile)) {
+      // if (!fs.existsSync(pathedFile)) {
+      const fileExists = fs.promises
+        .access(pathedFile)
+        .then(() => true)
+        .catch(() => false);
+      if (!fileExists) {
         doesntExist.push(pathedFile);
       }
     });
@@ -125,7 +136,13 @@ async function validateCatalogFiles() {
     const inputPath = core.getInput('path') || '';
 
     const catalogPath = path.join(inputPath, 'catalog');
-    if (fs.existsSync(catalogPath)) {
+    const defaultEmptyReturn = [];
+    // if (fs.existsSync(catalogPath)) {
+    const catalogDirExists = fs.promises
+      .access(catalogPath)
+      .then(() => true)
+      .catch(() => false);
+    if (catalogDirExists) {
       // First check catalog files
       const doesntExist = [];
       CATALOG_FILES.forEach(function (file) {
@@ -134,7 +151,12 @@ async function validateCatalogFiles() {
         // eslint-disable-next-line no-console
         console.debug(`Pathed file: ${pathedFile}`);
 
-        if (!fs.existsSync(pathedFile)) {
+        // if (!fs.existsSync(pathedFile)) {
+        const fileExists = fs.promises
+          .access(this._temporaryStorage)
+          .then(() => true)
+          .catch(() => false);
+        if (!fileExists) {
           doesntExist.push(pathedFile);
         }
       });
@@ -147,8 +169,10 @@ async function validateCatalogFiles() {
 
       return doesntExist.length > 0 || screenshotsFiles.length > 0
         ? [...doesntExist, ...screenshotsFiles]
-        : [];
+        : defaultEmptyReturn;
     }
+
+    return defaultEmptyReturn;
   } catch (error) {
     core.setFailed(error.message);
   }
