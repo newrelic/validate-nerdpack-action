@@ -2,16 +2,12 @@
   "name": "validate-nerdpack-action",
   "version": "0.0.1",
   "private": true,
-  "description": "TypeScript template action",
-  "main": "lib/main.js",
+  "description": "TypeScript Template Action",
+  "main": "src/main.js",
   "scripts": {
-    "build": "tsc",
-    "format": "prettier --write **/*.ts",
-    "format-check": "prettier --check **/*.ts",
-    "lint": "eslint src/**/*.ts",
-    "pack": "ncc build",
-    "test": "jest",
-    "all": "npm run build && npm run format && npm run lint && npm run pack && npm test"
+    "lint": "eslint src/",
+    "package": "ncc build src/main.js -o dist",
+    "test": "eslint src/ && jest"
   },
   "repository": {
     "type": "git",
@@ -28,18 +24,12 @@
     "@actions/core": "^1.2.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.9.1",
-    "@types/node": "^12.12.31",
-    "@typescript-eslint/parser": "^2.25.0",
+    "@newrelic/eslint-plugin-newrelic": "^0.3.0",
+    "@semantic-release/changelog": "^3.0.5",
+    "@semantic-release/git": "^7.0.18",
     "@zeit/ncc": "^0.20.5",
     "eslint": "^6.8.0",
-    "eslint-plugin-github": "^2.0.0",
-    "eslint-plugin-jest": "^22.21.0",
-    "jest": "^25.2.4",
-    "jest-circus": "^25.2.4",
-    "js-yaml": "^3.13.1",
-    "prettier": "^1.19.1",
-    "ts-jest": "^25.3.0",
-    "typescript": "^3.8.3"
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5"
   }
 }
