@@ -10,9 +10,9 @@ async function run() {
     await validatePackageJson();
 
     const missingNerdpackFiles = validateNerdpackFiles();
-
+    console.log(`missingNerdpackFiles: ${missingNerdpackFiles}`);
     const missingCatalogFiles = await validateCatalogFiles();
-
+    console.log(`missingCatalogFiles: ${missingCatalogFiles}`);
     const result = [...missingNerdpackFiles, ...missingCatalogFiles];
     if (result.length > 0) {
       core.setFailed(`These files do not exist: ${result.join(', ')}`);
