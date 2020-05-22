@@ -58,14 +58,15 @@ async function run() {
     await validatePackageJson();
 
     const missingNerdpackFiles = await validateNerdpackFiles();
-    console.log(`missingNerdpackFiles: ${missingNerdpackFiles}`);
 
     const missingCatalogFiles = await validateCatalogFiles();
-    console.log(`missingCatalogFiles: ${missingCatalogFiles}`);
 
     const result = [...missingNerdpackFiles, ...missingCatalogFiles];
+
     if (result.length > 0) {
-      core.setFailed(`These files do not exist: ${result.join(', ')}`);
+      core.setFailed(
+        `SUMMARY -- These files do not exist:\n ${result.join(', ')}`
+      );
     }
   } catch (error) {
     core.setFailed(`Error occurred run | ${error.message}`);
@@ -83,6 +84,9 @@ async function run() {
  * below is relative to github_workspace/${inputPath}
  */
 async function validateNerdpackFiles() {
+  // eslint-disable-next-line no-console
+  console.log(`Validating Nerdpack Files`);
+
   try {
     const inputPath = core.getInput('path') || '';
     const inputFiles = core.getInput('files') || process.env.FILES || '';
@@ -101,7 +105,6 @@ async function validateNerdpackFiles() {
       fileList.map(async (file) => {
         const pathedFile = path.join(inputPath, file);
 
-        // if (!fs.existsSync(pathedFile)) {
         const fileExists = await fsp
           .access(pathedFile)
           .then(() => true)
@@ -114,6 +117,7 @@ async function validateNerdpackFiles() {
         }
       })
     );
+
     if (doesntExist.length > 0) {
       core.setFailed(
         `validateNerdpackFiles | These files do not exist: ${doesntExist.join(
@@ -121,6 +125,7 @@ async function validateNerdpackFiles() {
         )}`
       );
     }
+
     return doesntExist;
   } catch (error) {
     core.setFailed(error.message);
@@ -138,16 +143,19 @@ async function validateNerdpackFiles() {
  * below is relative to github_workspace/${inputPath}
  */
 async function validateCatalogFiles() {
+  // eslint-disable-next-line no-console
+  console.log(`Validating catalog files`);
+
   try {
     const inputPath = core.getInput('path') || '';
-
     const catalogPath = path.join(inputPath, 'catalog');
     const defaultEmptyReturn = [];
-    // if (fs.existsSync(catalogPath)) {
+
     const catalogDirExists = await fsp
       .access(catalogPath)
       .then(() => true)
       .catch(() => false);
+
     if (catalogDirExists) {
       // First check catalog files
       const doesntExist = [];
@@ -155,7 +163,6 @@ async function validateCatalogFiles() {
         CATALOG_FILES.map(async (file) => {
           const pathedFile = path.join(inputPath, file);
 
-          // if (!fs.existsSync(pathedFile)) {
           const fileExists = await fsp
             .access(pathedFile)
             .then(() => true)
@@ -163,11 +170,13 @@ async function validateCatalogFiles() {
 
           // eslint-disable-next-line no-console
           console.debug(`Pathed file: ${pathedFile} | Exists: ${fileExists}`);
+
           if (!fileExists) {
             doesntExist.push(pathedFile);
           }
         })
       );
+
       if (doesntExist.length > 0) {
         core.setFailed(
           `validateCatalogFiles | These files do not exist: ${doesntExist.join(
@@ -191,9 +200,13 @@ async function validateCatalogFiles() {
 }
 
 async function validateScreenshotsDir() {
+  // eslint-disable-next-line no-console
+  console.log(`Validating catalog/screenshot directory`);
+
   const wd = process.env.GITHUB_WORKSPACE || '';
   const inputPath = core.getInput('path') || '';
   const screenshotsPath = path.join(wd, inputPath, 'catalog/screenshots');
+  const defaultSuccessResponse = [];
 
   try {
     const screenshotsFiles = await fsp
@@ -202,31 +215,16 @@ async function validateScreenshotsDir() {
       .catch(() => []);
 
     if (!screenshotsFiles.length) {
-      core.setFailed(
-        `validateScreenshotsDir | No screenshots present in catalog/screenshots. Must have at least one.`
-      );
+      const errMessage = `validateScreenshotsDir | No screenshots present in catalog/screenshots. Must have at least one.`;
+      core.setFailed(errMessage);
+      return [errMessage];
     }
-    return !screenshotsFiles.length
-      ? [
-          `No screenshots present in catalog/screenshots. Must have at least one.`
-        ]
-      : [];
+
+    return defaultSuccessResponse;
   } catch (error) {
     core.setFailed(`Failed to read catalog/screenshots directory.`);
     return [`catalog/screenshots`];
   }
-
-  // fs.readdir(screenshotsPath, (err, files) => {
-  //   if (err) {
-  //     core.setFailed('Failed to read catalog/screenshots directory');
-  //   }
-
-  //   if (!files.length) {
-  //     core.setFailed(
-  //       'No screenshots present in catalog/screenshots. Must have at least one.'
-  //     );
-  //   }
-  // });
 }
 
 /**
@@ -237,36 +235,40 @@ async function validateScreenshotsDir() {
  * @see {@link https://github.com/newrelic/nr1-catalog/issues/3|Issue 3}
  */
 async function validatePackageJson() {
+  // eslint-disable-next-line no-console
+  console.log(`Validating packageJson`);
+
   try {
     const workspaceDir = process.env.GITHUB_WORKSPACE || './';
     const inputPath = core.getInput('path') || '';
     const packageJsonPath = path.join(workspaceDir, inputPath, 'package.json');
 
-    console.log(`workspaceDir: ${workspaceDir}`);
-    console.log(`inputPath: ${inputPath}`);
-    console.log(`packageJsonPath: ${packageJsonPath}`);
+    // eslint-disable-next-line no-console
+    console.log(
+      `> workspaceDir: ${workspaceDir} \n> inputPath: ${inputPath} \n> packageJsonPath: ${packageJsonPath}`
+    );
 
     const rawPackageJsonData = await fsp.readFile(packageJsonPath);
     const packageJson = JSON.parse(rawPackageJsonData);
 
     if (packageJson && !packageJson.version) {
-      // !packageJson.hasOwnProperty('version')) {
-      core.setFailed('version missing from package.json');
+      core.setFailed(`validatePackageJson | version missing from package.json`);
     }
 
     if (packageJson && !packageJson.scripts) {
-      // !packageJson.hasOwnProperty('scripts')) {
-      core.setFailed('scripts missing from package.json');
+      core.setFailed(`validatePackageJson | scripts missing from package.json`);
     }
 
     if (packageJson && !packageJson.scripts['eslint-check']) {
-      // !packageJson.scripts.hasOwnProperty('eslint-check')) {
-      core.setFailed('eslint-check missing from package.json#scripts');
+      core.setFailed(
+        `validatePackageJson | eslint-check missing from package.json#scripts`
+      );
     }
 
     if (packageJson && !packageJson.scripts['eslint-fix']) {
-      // !packageJson.scripts.hasOwnProperty('eslint-fix')) {
-      core.setFailed('eslint-fix missing from package.json#scripts');
+      core.setFailed(
+        `validatePackageJson | eslint-fix missing from package.json#scripts`
+      );
     }
   } catch (error) {
     core.setFailed(`Error occurred validatePackageJson | ${error.message}`);
