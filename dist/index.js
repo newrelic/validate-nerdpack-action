@@ -161,8 +161,9 @@ async function validateScreenshotsDir() {
 
   try {
     const screenshotsFiles = await fsp.readdir(screenshotsPath);
-    if (!screenshotsFiles.length)
-      return `No screenshots present in catalog/screenshots. Must have at least one.`;
+    return !screenshotsFiles.length
+      ? `No screenshots present in catalog/screenshots. Must have at least one.`
+      : [];
     // if (!screenshotsFiles.length) {
     //   core.setFailed(
     //     `No screenshots present in catalog/screenshots. Must have at least one.`
