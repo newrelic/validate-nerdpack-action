@@ -53,14 +53,14 @@ async function validateNerdpackFiles() {
       fileList.map(async (file) => {
         const pathedFile = path.join(inputPath, file);
 
-        // eslint-disable-next-line no-console
-        console.debug(`Pathed file: ${pathedFile}`);
-
         // if (!fs.existsSync(pathedFile)) {
         const fileExists = await fsp
           .access(pathedFile)
           .then(() => true)
           .catch(() => false);
+
+        // eslint-disable-next-line no-console
+        console.debug(`Pathed file: ${pathedFile} | Exists: ${fileExists}`);
         if (!fileExists) {
           doesntExist.push(pathedFile);
         }
@@ -103,14 +103,14 @@ async function validateCatalogFiles() {
         CATALOG_FILES.map(async (file) => {
           const pathedFile = path.join(inputPath, file);
 
-          // eslint-disable-next-line no-console
-          console.debug(`Pathed file: ${pathedFile}`);
-
           // if (!fs.existsSync(pathedFile)) {
           const fileExists = fs.promises
             .access(this._temporaryStorage)
             .then(() => true)
             .catch(() => false);
+
+          // eslint-disable-next-line no-console
+          console.debug(`Pathed file: ${pathedFile} | Exists: ${fileExists}`);
           if (!fileExists) {
             doesntExist.push(pathedFile);
           }
