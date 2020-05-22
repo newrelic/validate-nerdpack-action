@@ -8,7 +8,7 @@ const { DEFAULT_NERDPACK_FILES, CATALOG_FILES } = require('./constants');
 async function run() {
   await validatePackageJson();
 
-  const missingNerdpackFiles = await validateNerdpackFiles();
+  const missingNerdpackFiles = validateNerdpackFiles();
 
   const missingCatalogFiles = await validateCatalogFiles();
 
@@ -28,7 +28,7 @@ async function run() {
  * directory and executing this check. It's worth noting that the `existsSync`
  * below is relative to github_workspace/${inputPath}
  */
-async function validateNerdpackFiles() {
+function validateNerdpackFiles() {
   try {
     const inputPath = core.getInput('path') || '';
     const inputFiles = core.getInput('files') || process.env.FILES || '';
