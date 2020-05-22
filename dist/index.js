@@ -56,9 +56,14 @@ const { DEFAULT_NERDPACK_FILES, CATALOG_FILES } = __webpack_require__(648);
 async function run() {
   await validatePackageJson();
 
-  await validateNerdpackFiles();
+  const missingNerdpackFiles = await validateNerdpackFiles();
 
-  await validateCatalogFiles();
+  const missingCatalogFiles = await validateCatalogFiles();
+
+  const result = [...missingNerdpackFiles, ...missingCatalogFiles];
+  if (result.length > 0) {
+    core.setFailed(`These files do not exist: ${result.join(', ')}`);
+  }
 }
 
 /**
@@ -96,9 +101,10 @@ async function validateNerdpackFiles() {
         doesntExist.push(pathedFile);
       }
     });
-    if (doesntExist.length > 0) {
-      core.setFailed(`These files do not exist: ${doesntExist.join(', ')}`);
-    }
+    // if (doesntExist.length > 0) {
+    //   core.setFailed(`These files do not exist: ${doesntExist.join(', ')}`);
+    // }
+    return doesntExist;
   } catch (error) {
     core.setFailed(error.message);
   }
@@ -132,12 +138,16 @@ async function validateCatalogFiles() {
           doesntExist.push(pathedFile);
         }
       });
-      if (doesntExist.length > 0) {
-        core.setFailed(`These files do not exist: ${doesntExist.join(', ')}`);
-      }
+      // if (doesntExist.length > 0) {
+      //   core.setFailed(`These files do not exist: ${doesntExist.join(', ')}`);
+      // }
 
       // Now check screenshots
-      await validateScreenshotsDir();
+      const screenshotsFiles = await validateScreenshotsDir();
+
+      return doesntExist.lenth > 0 || screenshotsFiles.length > 0
+        ? [...doesntExist, ...screenshotsFiles]
+        : [];
     }
   } catch (error) {
     core.setFailed(error.message);
@@ -151,11 +161,13 @@ async function validateScreenshotsDir() {
 
   try {
     const screenshotsFiles = await fsp.readdir(screenshotsPath);
-    if (!screenshotsFiles.length) {
-      core.setFailed(
-        `No screenshots present in catalog/screenshots. Must have at least one.`
-      );
-    }
+    if (!screenshotsFiles.length)
+      return `No screenshots present in catalog/screenshots. Must have at least one.`;
+    // if (!screenshotsFiles.length) {
+    //   core.setFailed(
+    //     `No screenshots present in catalog/screenshots. Must have at least one.`
+    //   );
+    // }
   } catch (error) {
     core.setFailed(`Failed to read catalog/screenshots directory.`);
   }
