@@ -97,7 +97,7 @@ async function validateCatalogFiles() {
       // Now check screenshots
       const screenshotsFiles = await validateScreenshotsDir();
 
-      return doesntExist.lenth > 0 || screenshotsFiles.length > 0
+      return doesntExist.length > 0 || screenshotsFiles.length > 0
         ? [...doesntExist, ...screenshotsFiles]
         : [];
     }
