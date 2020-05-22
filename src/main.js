@@ -6,15 +6,19 @@ const fs = require('fs');
 const { DEFAULT_NERDPACK_FILES, CATALOG_FILES } = require('./constants');
 
 async function run() {
-  await validatePackageJson();
+  try {
+    await validatePackageJson();
 
-  const missingNerdpackFiles = validateNerdpackFiles();
+    const missingNerdpackFiles = validateNerdpackFiles();
 
-  const missingCatalogFiles = await validateCatalogFiles();
+    const missingCatalogFiles = await validateCatalogFiles();
 
-  const result = [...missingNerdpackFiles, ...missingCatalogFiles];
-  if (result.length > 0) {
-    core.setFailed(`These files do not exist: ${result.join(', ')}`);
+    const result = [...missingNerdpackFiles, ...missingCatalogFiles];
+    if (result.length > 0) {
+      core.setFailed(`These files do not exist: ${result.join(', ')}`);
+    }
+  } catch (error) {
+    core.setFailed(`Error occurred run | ${error.message}`);
   }
 }
 
@@ -77,6 +81,7 @@ async function validateCatalogFiles() {
     const inputPath = core.getInput('path') || '';
 
     const catalogPath = path.join(inputPath, 'catalog');
+    const defaultEmptyReturn = [];
     if (fs.existsSync(catalogPath)) {
       // First check catalog files
       const doesntExist = [];
@@ -99,8 +104,10 @@ async function validateCatalogFiles() {
 
       return doesntExist.length > 0 || screenshotsFiles.length > 0
         ? [...doesntExist, ...screenshotsFiles]
-        : [];
+        : defaultEmptyReturn;
     }
+
+    return defaultEmptyReturn;
   } catch (error) {
     core.setFailed(error.message);
   }
