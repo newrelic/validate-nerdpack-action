@@ -73,7 +73,7 @@ async function run() {
  */
 async function validateNerdpackFiles() {
   try {
-    const inputPath = core.getInput('path') || process.env.PATH || '';
+    const inputPath = core.getInput('path') || '';
     const inputFiles = core.getInput('files') || process.env.FILES || '';
     const override =
       (core.getInput('override') || process.env.OVERRIDE) === 'true';
@@ -116,7 +116,7 @@ async function validateNerdpackFiles() {
  */
 async function validateCatalogFiles() {
   try {
-    const inputPath = core.getInput('path') || process.env.PATH || '';
+    const inputPath = core.getInput('path') || '';
 
     const catalogPath = path.join(inputPath, 'catalog');
     if (fs.existsSync(catalogPath)) {
@@ -146,7 +146,7 @@ async function validateCatalogFiles() {
 
 async function validateScreenshotsDir() {
   const wd = process.env.GITHUB_WORKSPACE || '';
-  const inputPath = core.getInput('path') || process.env.PATH || '';
+  const inputPath = core.getInput('path') || '';
   const screenshotsPath = path.join(wd, inputPath, 'catalog/screenshots');
 
   try {
@@ -183,7 +183,7 @@ async function validateScreenshotsDir() {
 async function validatePackageJson() {
   try {
     const workspaceDir = process.env.GITHUB_WORKSPACE || './';
-    const inputPath = core.getInput('path') || process.env.PATH || '';
+    const inputPath = core.getInput('path') || '';
     const packageJsonPath = path.join(workspaceDir, inputPath, 'package.json');
 
     console.log(`workspaceDir: ${workspaceDir}`);
