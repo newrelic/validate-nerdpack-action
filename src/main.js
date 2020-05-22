@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const path = require('path');
 const fsp = require('fs').promises;
-const fs = require('fs');
+// const fs = require('fs');
 
 const { DEFAULT_NERDPACK_FILES, CATALOG_FILES } = require('./constants');
 
@@ -66,9 +66,13 @@ async function validateNerdpackFiles() {
         }
       })
     );
-    // if (doesntExist.length > 0) {
-    //   core.setFailed(`These files do not exist: ${doesntExist.join(', ')}`);
-    // }
+    if (doesntExist.length > 0) {
+      core.setFailed(
+        `validateNerdpackFiles | These files do not exist: ${doesntExist.join(
+          ', '
+        )}`
+      );
+    }
     return doesntExist;
   } catch (error) {
     core.setFailed(error.message);
@@ -116,9 +120,13 @@ async function validateCatalogFiles() {
           }
         })
       );
-      // if (doesntExist.length > 0) {
-      //   core.setFailed(`These files do not exist: ${doesntExist.join(', ')}`);
-      // }
+      if (doesntExist.length > 0) {
+        core.setFailed(
+          `validateCatalogFiles | These files do not exist: ${doesntExist.join(
+            ', '
+          )}`
+        );
+      }
 
       // Now check screenshots
       const screenshotsFiles = await validateScreenshotsDir();
@@ -140,17 +148,25 @@ async function validateScreenshotsDir() {
   const screenshotsPath = path.join(wd, inputPath, 'catalog/screenshots');
 
   try {
-    const screenshotsFiles = await fsp.readdir(screenshotsPath);
+    const screenshotsFiles = await fsp
+      .readdir(screenshotsPath)
+      .then((files) => files)
+      .catch(() => []);
+
+    if (!screenshotsFiles.length) {
+      core.setFailed(
+        `validateScreenshotsDir | No screenshots present in catalog/screenshots. Must have at least one.`
+      );
+    }
+
     return !screenshotsFiles.length
-      ? `No screenshots present in catalog/screenshots. Must have at least one.`
+      ? [
+          `No screenshots present in catalog/screenshots. Must have at least one.`
+        ]
       : [];
-    // if (!screenshotsFiles.length) {
-    //   core.setFailed(
-    //     `No screenshots present in catalog/screenshots. Must have at least one.`
-    //   );
-    // }
   } catch (error) {
     core.setFailed(`Failed to read catalog/screenshots directory.`);
+    return [`catalog/screenshots`];
   }
 
   // fs.readdir(screenshotsPath, (err, files) => {
