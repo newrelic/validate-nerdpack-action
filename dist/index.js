@@ -123,7 +123,7 @@ async function validateCatalogFiles() {
       // First check catalog files
       const doesntExist = [];
       CATALOG_FILES.forEach(function (file) {
-        const pathedFile = path.join(catalogPath, file);
+        const pathedFile = path.join(inputPath, file);
 
         // eslint-disable-next-line no-console
         console.debug(`Pathed file: ${pathedFile}`);
