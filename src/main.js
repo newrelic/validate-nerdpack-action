@@ -238,6 +238,12 @@ function validateScripts(packageJson) {
 }
 
 function validatePinnedReactVersion(packageJson) {
+  console.log(
+    `Semver React Check: ${semver.satisfies(
+      REACT_PINNED_VERSION,
+      packageJson.dependencies.react
+    )}`
+  );
   if (
     packageJson &&
     packageJson.dependencies &&
@@ -248,6 +254,13 @@ function validatePinnedReactVersion(packageJson) {
       `validatePackageJson | react version must be set to ${REACT_PINNED_VERSION} - currently set to ${packageJson.dependencies.react}`
     );
   }
+
+  console.log(
+    `Semver React-Dom Check: ${semver.satisfies(
+      REACT_PINNED_VERSION,
+      packageJson.dependencies.react
+    )}`
+  );
   if (
     packageJson &&
     packageJson.dependencies &&
