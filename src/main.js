@@ -5,6 +5,7 @@ const fsp = require('fs').promises;
 const {
   DEFAULT_NERDPACK_FILES,
   CATALOG_FILES,
+  SCREENSHOTS_DIR,
   REACT_PINNED_VERSION,
   REACT_DOM_PINNED_VERSION
 } = require('./constants');
@@ -25,7 +26,7 @@ async function run() {
 
     if (allMissingFiles.length > 0) {
       core.setFailed(
-        `-- SUMMARY >> These files do not exist: ${allMissingFiles.join(', ')}`
+        `>> SUMMARY >> These files do not exist: ${allMissingFiles.join(', ')}`
       );
     }
   } catch (error) {
@@ -123,9 +124,9 @@ async function validateCatalogFiles() {
         )
       ).filter((f) => f);
 
-      // Now check screenshots
+      // Catalog files checked, now check screenshots
       const screenshotsFilesResult = !missingCatalogFiles.includes(
-        'catalog/screenshots'
+        SCREENSHOTS_DIR
       )
         ? await validateScreenshotsDir()
         : null;
@@ -151,7 +152,7 @@ async function validateScreenshotsDir() {
 
   const wd = process.env.GITHUB_WORKSPACE || '';
   const inputPath = core.getInput('path') || '';
-  const screenshotsPath = path.join(wd, inputPath, 'catalog/screenshots');
+  const screenshotsPath = path.join(wd, inputPath, SCREENSHOTS_DIR);
   // const defaultSuccessResponse = [];
 
   try {
@@ -236,14 +237,19 @@ function validateScripts(packageJson) {
 }
 
 function validatePinnedReactVersion(packageJson) {
-  if (packageJson && !packageJson.dependencies.react !== REACT_PINNED_VERSION) {
+  if (
+    packageJson &&
+    packageJson.dependencies &&
+    packageJson.dependencies.react !== REACT_PINNED_VERSION
+  ) {
     core.setFailed(
       `validatePackageJson | react version must be set to ${REACT_PINNED_VERSION}`
     );
   }
   if (
     packageJson &&
-    !packageJson.dependencies['react-dom'] !== REACT_DOM_PINNED_VERSION
+    packageJson.dependencies &&
+    packageJson.dependencies['react-dom'] !== REACT_DOM_PINNED_VERSION
   ) {
     core.setFailed(
       `validatePackageJson | react-dom version must be set to ${REACT_DOM_PINNED_VERSION}`
