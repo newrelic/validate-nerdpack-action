@@ -21,7 +21,8 @@
   "author": "jbeveland27",
   "license": "Apache-2.0",
   "dependencies": {
-    "@actions/core": "^1.2.0"
+    "@actions/core": "^1.2.0",
+    "semver": "^7.3.2"
   },
   "devDependencies": {
     "@newrelic/eslint-plugin-newrelic": "^0.3.0",

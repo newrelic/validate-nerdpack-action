@@ -12,18 +12,22 @@ A GitHub Action to check for the presence of our standard open source files, cat
 | `path`     | no       | -       | Sets the directory the Action will run from.                                                                                                 |
 | `override` | no       | false   | By default, the files option will append to the default list of files being checked. This flag allows overwriting the whole list.            |
 
-# Example Usage
+## Example Usage
 
-TODO: Add better example usage here
+### Basic validation
 
-Include something like this in a `pr.yml` file:
+The following example shows how to use the valiate-nerdpace-action to ensure all Nerdpack standards are adhered to in a Pull Request.
 
 ```yaml
 name: "Build and Validate Nerdpack"
-on: [pull_request, push]
+
+on:
+  pull_request:
+      branches:
+        - master
 
 jobs:
-  validate-nerdpack-action:
+  validate-nerdpack:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -32,6 +36,48 @@ jobs:
         uses: newrelic/validate-nerdpack-action@v1
         with:
           files: "package.json, LICENSE, README.md, foo, bar"
+      
+      # Now run nr1 nerdpack:validate to ensure nerdpack is able to be published
+      - name: Install NR1 CLI
+        run: |
+          curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+      - name: Validate Nerdpack Schema
+        run: |
+          nr1 nerdpack:validate
+```
+
+## Custom Input Options
+
+Add `files`, `path`, and `override` configuration.
+
+```yaml
+name: "Build and Validate Nerdpack"
+
+on: 
+  pull_request:
+      branches:
+        - master
+
+jobs:
+  validate-nerdpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: "Validate Nerdpack"
+        uses: newrelic/validate-nerdpack-action@v1
+        with:
+          files: "package.json, LICENSE, README.md, foo, bar"
+          override: true
+          path: ./apps/nr1-browser-analyzer # set Action to run from base Nerdpack directory
+      
+      # Now run nr1 nerdpack:validate to ensure nerdpack is able to be published
+      - name: Install NR1 CLI
+        run: |
+          curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+      - name: Validate Nerdpack Schema
+        run: |
+          nr1 nerdpack:validate
 ```
 
 ## License
