@@ -300,34 +300,22 @@ function validateScripts(packageJson) {
 }
 
 function validatePinnedReactVersion(packageJson) {
-  console.log(
-    `Semver React Check: ${semver.satisfies(
-      REACT_PINNED_VERSION,
-      packageJson.dependencies.react
-    )}`
-  );
   if (
     packageJson &&
     packageJson.dependencies &&
     packageJson.dependencies.react &&
-    semver.satisfies(REACT_PINNED_VERSION, packageJson.dependencies.react)
+    !semver.satisfies(REACT_PINNED_VERSION, packageJson.dependencies.react)
   ) {
     core.setFailed(
       `validatePackageJson | react version must be set to ${REACT_PINNED_VERSION} - currently set to ${packageJson.dependencies.react}`
     );
   }
 
-  console.log(
-    `Semver React-Dom Check: ${semver.satisfies(
-      REACT_PINNED_VERSION,
-      packageJson.dependencies.react
-    )}`
-  );
   if (
     packageJson &&
     packageJson.dependencies &&
     packageJson.dependencies['react-dom'] &&
-    semver.satisfies(
+    !semver.satisfies(
       REACT_DOM_PINNED_VERSION,
       packageJson.dependencies['react-dom']
     )
