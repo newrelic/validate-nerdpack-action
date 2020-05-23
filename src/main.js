@@ -243,7 +243,7 @@ function validatePinnedReactVersion(packageJson) {
     packageJson.dependencies.react !== REACT_PINNED_VERSION
   ) {
     core.setFailed(
-      `validatePackageJson | react version must be set to ${REACT_PINNED_VERSION}`
+      `validatePackageJson | react version must be set to ${REACT_PINNED_VERSION} - currently set to ${packageJson.dependencies.react}`
     );
   }
   if (
@@ -252,7 +252,7 @@ function validatePinnedReactVersion(packageJson) {
     packageJson.dependencies['react-dom'] !== REACT_DOM_PINNED_VERSION
   ) {
     core.setFailed(
-      `validatePackageJson | react-dom version must be set to ${REACT_DOM_PINNED_VERSION}`
+      `validatePackageJson | react-dom version must be set to ${REACT_DOM_PINNED_VERSION} - currently set to ${packageJson.dependencies['react-dom']}`
     );
   }
 }
