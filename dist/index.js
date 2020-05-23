@@ -53,6 +53,7 @@ const fsp = __webpack_require__(747).promises;
 const {
   DEFAULT_NERDPACK_FILES,
   CATALOG_FILES,
+  SCREENSHOTS_DIR,
   REACT_PINNED_VERSION,
   REACT_DOM_PINNED_VERSION
 } = __webpack_require__(648);
@@ -73,7 +74,7 @@ async function run() {
 
     if (allMissingFiles.length > 0) {
       core.setFailed(
-        `-- SUMMARY >> These files do not exist: ${allMissingFiles.join(', ')}`
+        `>> SUMMARY >> These files do not exist: ${allMissingFiles.join(', ')}`
       );
     }
   } catch (error) {
@@ -171,9 +172,9 @@ async function validateCatalogFiles() {
         )
       ).filter((f) => f);
 
-      // Now check screenshots
+      // Catalog files checked, now check screenshots
       const screenshotsFilesResult = !missingCatalogFiles.includes(
-        'catalog/screenshots'
+        SCREENSHOTS_DIR
       )
         ? await validateScreenshotsDir()
         : null;
@@ -199,7 +200,7 @@ async function validateScreenshotsDir() {
 
   const wd = process.env.GITHUB_WORKSPACE || '';
   const inputPath = core.getInput('path') || '';
-  const screenshotsPath = path.join(wd, inputPath, 'catalog/screenshots');
+  const screenshotsPath = path.join(wd, inputPath, SCREENSHOTS_DIR);
   // const defaultSuccessResponse = [];
 
   try {
@@ -284,14 +285,19 @@ function validateScripts(packageJson) {
 }
 
 function validatePinnedReactVersion(packageJson) {
-  if (packageJson && !packageJson.dependencies.react !== REACT_PINNED_VERSION) {
+  if (
+    packageJson &&
+    packageJson.dependencies &&
+    packageJson.dependencies.react !== REACT_PINNED_VERSION
+  ) {
     core.setFailed(
       `validatePackageJson | react version must be set to ${REACT_PINNED_VERSION}`
     );
   }
   if (
     packageJson &&
-    !packageJson.dependencies['react-dom'] !== REACT_DOM_PINNED_VERSION
+    packageJson.dependencies &&
+    packageJson.dependencies['react-dom'] !== REACT_DOM_PINNED_VERSION
   ) {
     core.setFailed(
       `validatePackageJson | react-dom version must be set to ${REACT_DOM_PINNED_VERSION}`
@@ -627,7 +633,7 @@ const DEFAULT_NERDPACK_FILES = [
   'package.json',
   'package-lock.json',
   'nr1.json',
-  'releaserc',
+  '.releaserc',
   'cla.md',
   'third_party_manifest.json',
 
@@ -652,12 +658,14 @@ const CATALOG_FILES = [
   'icon.png'
 ];
 
+const SCREENSHOTS_DIR = 'catalog/screenshots';
 const REACT_PINNED_VERSION = '16.6.3';
 const REACT_DOM_PINNED_VERSION = '16.6.3';
 
 module.exports = {
   DEFAULT_NERDPACK_FILES,
   CATALOG_FILES,
+  SCREENSHOTS_DIR,
   REACT_PINNED_VERSION,
   REACT_DOM_PINNED_VERSION
 };
