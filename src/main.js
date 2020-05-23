@@ -71,23 +71,25 @@ async function validateNerdpackFiles() {
       inputFiles.length > 0 ? combinedFileList : DEFAULT_NERDPACK_FILES;
 
     // const doesntExist = [];
-    const doesntExist = await Promise.all(
-      fileList.map(
-        (file) => checkFileExists(inputPath, file)
-        //   async (file) => {
-        //   const pathedFile = path.join(inputPath, file);
+    const doesntExist = (
+      await Promise.all(
+        fileList.map(
+          (file) => checkFileExists(inputPath, file)
+          //   async (file) => {
+          //   const pathedFile = path.join(inputPath, file);
 
-        //   const fileExists = await fsp
-        //     .access(pathedFile)
-        //     .then(() => true)
-        //     .catch(() => false);
+          //   const fileExists = await fsp
+          //     .access(pathedFile)
+          //     .then(() => true)
+          //     .catch(() => false);
 
-        //   // eslint-disable-next-line no-console
-        //   console.debug(`Pathed file: ${pathedFile} | Exists: ${fileExists}`);
-        //   if (!fileExists) {
-        //     doesntExist.push(pathedFile);
-        //   }
-        // }
+          //   // eslint-disable-next-line no-console
+          //   console.debug(`Pathed file: ${pathedFile} | Exists: ${fileExists}`);
+          //   if (!fileExists) {
+          //     doesntExist.push(pathedFile);
+          //   }
+          // }
+        )
       )
     ).filter((f) => f); // check if this is not null
 
