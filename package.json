@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "description": "TypeScript Template Action",
-  "main": "src/main.js",
+  "main": "dist/index.js",
   "scripts": {
     "lint": "eslint src/",
+    "build": "npx ncc build src/main.js -o dist",
     "package": "ncc build src/main.js -o dist",
     "test": "eslint src/ && jest"
   },
