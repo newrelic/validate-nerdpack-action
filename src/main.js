@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const path = require('path');
 const fsp = require('fs').promises;
+const semver = require('semver');
 
 const {
   DEFAULT_NERDPACK_FILES,
@@ -240,7 +241,8 @@ function validatePinnedReactVersion(packageJson) {
   if (
     packageJson &&
     packageJson.dependencies &&
-    packageJson.dependencies.react !== REACT_PINNED_VERSION
+    packageJson.dependencies.react &&
+    semver.satisfies(REACT_PINNED_VERSION, packageJson.dependencies.react)
   ) {
     core.setFailed(
       `validatePackageJson | react version must be set to ${REACT_PINNED_VERSION} - currently set to ${packageJson.dependencies.react}`
@@ -249,7 +251,11 @@ function validatePinnedReactVersion(packageJson) {
   if (
     packageJson &&
     packageJson.dependencies &&
-    packageJson.dependencies['react-dom'] !== REACT_DOM_PINNED_VERSION
+    packageJson.dependencies['react-dom'] &&
+    semver.satisfies(
+      REACT_DOM_PINNED_VERSION,
+      packageJson.dependencies['react-dom']
+    )
   ) {
     core.setFailed(
       `validatePackageJson | react-dom version must be set to ${REACT_DOM_PINNED_VERSION} - currently set to ${packageJson.dependencies['react-dom']}`
