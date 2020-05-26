@@ -2,6 +2,8 @@
 
 # Validate Nerdpack Action
 
+[![GitHub Marketplace version](https://img.shields.io/github/release/newrelic/validate-nerdpack-action.svg?label=Marketplace&logo=github)](https://github.com/marketplace/actions/validate-nerdpack-action)
+
 A GitHub Action to check for the presence of our standard open source files, catalog files (if applicable), and package script commands.
 
 ## Inputs
