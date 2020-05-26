@@ -1,0 +1,117 @@
+{
+  "lastUpdated": "Tue May 26 2020 16:29:40 GMT-0400 (Eastern Daylight Time)",
+  "projectName": "validate-nerdpack-action",
+  "projectUrl": "https://github.com/newrelic/validate-nerdpack-action",
+  "includeDev": true,
+  "dependencies": {
+    "@actions/core@1.2.3": {
+      "name": "@actions/core",
+      "version": "1.2.3",
+      "range": "^1.2.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/actions/toolkit",
+      "versionedRepoUrl": "https://github.com/actions/toolkit/tree/v1.2.3",
+      "licenseFile": "node_modules/@actions/core/README.md",
+      "licenseUrl": "https://github.com/actions/toolkit/blob/v1.2.3/README.md",
+      "licenseTextSource": "spdx"
+    },
+    "semver@7.3.2": {
+      "name": "semver",
+      "version": "7.3.2",
+      "range": "^7.3.2",
+      "licenses": "ISC",
+      "repoUrl": "https://github.com/npm/node-semver",
+      "versionedRepoUrl": "https://github.com/npm/node-semver/tree/v7.3.2",
+      "licenseFile": "node_modules/semver/LICENSE",
+      "licenseUrl": "https://github.com/npm/node-semver/blob/v7.3.2/LICENSE",
+      "licenseTextSource": "file"
+    }
+  },
+  "devDependencies": {
+    "@newrelic/eslint-plugin-newrelic@0.3.0": {
+      "name": "@newrelic/eslint-plugin-newrelic",
+      "version": "0.3.0",
+      "range": "^0.3.0",
+      "licenses": "Apache-2.0",
+      "repoUrl": "https://github.com/NewRelic/eslint-plugin-newrelic",
+      "versionedRepoUrl": "https://github.com/NewRelic/eslint-plugin-newrelic/tree/v0.3.0",
+      "licenseFile": "node_modules/@newrelic/eslint-plugin-newrelic/LICENSE",
+      "licenseUrl": "https://github.com/NewRelic/eslint-plugin-newrelic/blob/v0.3.0/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "New Relic"
+    },
+    "@semantic-release/changelog@3.0.6": {
+      "name": "@semantic-release/changelog",
+      "version": "3.0.6",
+      "range": "^3.0.5",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/semantic-release/changelog",
+      "versionedRepoUrl": "https://github.com/semantic-release/changelog/tree/v3.0.6",
+      "licenseFile": "node_modules/@semantic-release/changelog/LICENSE",
+      "licenseUrl": "https://github.com/semantic-release/changelog/blob/v3.0.6/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Pierre Vanduynslager",
+      "url": "https://github.com/pvdlg"
+    },
+    "@semantic-release/git@7.0.18": {
+      "name": "@semantic-release/git",
+      "version": "7.0.18",
+      "range": "^7.0.18",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/semantic-release/git",
+      "versionedRepoUrl": "https://github.com/semantic-release/git/tree/v7.0.18",
+      "licenseFile": "node_modules/@semantic-release/git/LICENSE",
+      "licenseUrl": "https://github.com/semantic-release/git/blob/v7.0.18/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Pierre Vanduynslager",
+      "url": "https://github.com/pvdlg"
+    },
+    "@zeit/ncc@0.20.5": {
+      "name": "@zeit/ncc",
+      "version": "0.20.5",
+      "range": "^0.20.5",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/zeit/ncc",
+      "versionedRepoUrl": "https://github.com/zeit/ncc/tree/v0.20.5",
+      "licenseFile": "node_modules/@zeit/ncc/LICENSE",
+      "licenseUrl": "https://github.com/zeit/ncc/blob/v0.20.5/LICENSE",
+      "licenseTextSource": "file"
+    },
+    "eslint@6.8.0": {
+      "name": "eslint",
+      "version": "6.8.0",
+      "range": "^6.8.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/eslint/eslint",
+      "versionedRepoUrl": "https://github.com/eslint/eslint/tree/v6.8.0",
+      "licenseFile": "node_modules/eslint/LICENSE",
+      "licenseUrl": "https://github.com/eslint/eslint/blob/v6.8.0/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Nicholas C. Zakas",
+      "email": "nicholas+npm@nczconsulting.com"
+    },
+    "jest@26.0.1": {
+      "name": "jest",
+      "version": "26.0.1",
+      "range": "^26.0.1",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/facebook/jest",
+      "versionedRepoUrl": "https://github.com/facebook/jest/tree/v26.0.1",
+      "licenseFile": "node_modules/jest/LICENSE",
+      "licenseUrl": "https://github.com/facebook/jest/blob/v26.0.1/LICENSE",
+      "licenseTextSource": "file"
+    },
+    "prettier@2.0.5": {
+      "name": "prettier",
+      "version": "2.0.5",
+      "range": "^2.0.5",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/prettier/prettier",
+      "versionedRepoUrl": "https://github.com/prettier/prettier/tree/v2.0.5",
+      "licenseFile": "node_modules/prettier/LICENSE",
+      "licenseUrl": "https://github.com/prettier/prettier/blob/v2.0.5/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "James Long"
+    }
+  }
+}
