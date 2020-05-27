@@ -1,3 +1,18 @@
+# on merge to master
+
+## Run npm semantic-release -- generates changelog and new release
+
+### or
+
+## Run scripts/release.sh -- generates changelog, pushes new release/v${RELEASE_VERSION} branch, then merge after all is good
+
+# or
+
+## - Generate changelog, commit it to master
+## - Create and push tag (release event)
+### -- runs `npm ci && npm run build`
+### -- Run build-and-tag-action on release:published or writes dist/index.js over top
+
 name: CI
 
 on:
@@ -8,7 +23,7 @@ on:
     types: [semantic-release]
 
 env:
-  THIRD_PARTY_GIT_AUTHOR_EMAIL: opensource+validate-nerdpack-action@newrelic.com
+  THIRD_PARTY_GIT_AUTHOR_EMAIL: opensource+template-nerdpack@newrelic.com
   THIRD_PARTY_GIT_AUTHOR_NAME: Actionbot
 
 jobs:
@@ -100,7 +115,6 @@ jobs:
 
   job-generate-release:
     runs-on: ubuntu-latest
-    needs: [job-checkout-and-build, job-generate-third-party-notices]
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -125,6 +139,9 @@ jobs:
 
       - name: Install Dependencies
         run: npm ci
+      
+      - name: Build
+        run: npm run build
 
       - name: Run semantic-release
         env:
