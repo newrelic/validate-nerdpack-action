@@ -1,3 +1,11 @@
+## [1.0.2](https://github.com/newrelic/validate-nerdpack-action/compare/v1.0.1...v1.0.2) (2020-05-27)
+
+
+### Bug Fixes
+
+* ensure correct ordering of jobs ([82867a2](https://github.com/newrelic/validate-nerdpack-action/commit/82867a22ccdc9b64bf4dcde812d392d9c56d3e5a))
+* include dist/index.js in tag after semantic-release runs ([0609351](https://github.com/newrelic/validate-nerdpack-action/commit/06093512ce40754bd751486cf5c93f18b3fff89f))
+
 ## [1.0.1](https://github.com/newrelic/validate-nerdpack-action/compare/v1.0.0...v1.0.1) (2020-05-27)
 
 
