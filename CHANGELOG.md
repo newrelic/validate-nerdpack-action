@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/newrelic/validate-nerdpack-action/compare/v1.0.0...v1.0.1) (2020-05-27)
+
+
+### Bug Fixes
+
+* need to run build for dist/index.js to be included in release ([a72f13c](https://github.com/newrelic/validate-nerdpack-action/commit/a72f13c7daf56a695b11e1e8481ff6846b555da4))
+
 # 1.0.0 (2020-05-27)
 
 
