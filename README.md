@@ -1,4 +1,4 @@
-[![Community Project header](https://github.com/newrelic/open-source-office/raw/master/examples/categories/images/Community_Project.png)](https://github.com/newrelic/open-source-office/blob/master/examples/categories/index.md#community-project)
+[![Community Project header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Community_Project.png)](https://opensource.newrelic.com/oss-category/#community-project)
 
 # Validate Nerdpack Action
 
@@ -26,7 +26,7 @@ name: "Build and Validate Nerdpack"
 on:
   pull_request:
       branches:
-        - master
+        - main
 
 jobs:
   validate-nerdpack:
@@ -58,7 +58,7 @@ name: "Build and Validate Nerdpack"
 on: 
   pull_request:
       branches:
-        - master
+        - main
 
 jobs:
   validate-nerdpack:
