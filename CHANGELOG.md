@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/newrelic/validate-nerdpack-action/compare/v1.0.2...v1.0.3) (2020-09-02)
+
+
+### Bug Fixes
+
+* better checking of react version in deps or devDeps ([235bdd7](https://github.com/newrelic/validate-nerdpack-action/commit/235bdd790d2f7137834108a02bb03fd21c159848))
+
 ## [1.0.2](https://github.com/newrelic/validate-nerdpack-action/compare/v1.0.1...v1.0.2) (2020-05-27)
 
 
