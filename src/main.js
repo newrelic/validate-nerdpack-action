@@ -238,26 +238,45 @@ function validateScripts(packageJson) {
 }
 
 function validatePinnedReactVersion(packageJson) {
-  if (
+  // validate `react`
+  const reactDependencySatisfied =
     packageJson &&
     packageJson.dependencies &&
     packageJson.dependencies.react &&
-    !semver.satisfies(REACT_PINNED_VERSION, packageJson.dependencies.react)
-  ) {
+    semver.satisfies(packageJson.dependencies.react, REACT_PINNED_VERSION);
+
+  const reactDevDependencySatisfied =
+    packageJson &&
+    packageJson.devDependencies &&
+    packageJson.devDependencies.react &&
+    semver.satisfies(packageJson.devDependencies.react, REACT_PINNED_VERSION);
+
+  if (!reactDependencySatisfied && !reactDevDependencySatisfied) {
     core.setFailed(
       `validatePackageJson | react version must be set to ${REACT_PINNED_VERSION} - currently set to ${packageJson.dependencies.react}`
     );
   }
 
-  if (
+  // validate `react-dom`
+  const reactDomDependencySatisfied =
     packageJson &&
     packageJson.dependencies &&
     packageJson.dependencies['react-dom'] &&
-    !semver.satisfies(
-      REACT_DOM_PINNED_VERSION,
-      packageJson.dependencies['react-dom']
-    )
-  ) {
+    semver.satisfies(
+      packageJson.dependencies['react-dom'],
+      REACT_DOM_PINNED_VERSION
+    );
+
+  const reactDomDevDependencySatisfied =
+    packageJson &&
+    packageJson.devDependencies &&
+    packageJson.devDependencies['react-dom'] &&
+    semver.satisfies(
+      packageJson.devDependencies['react-dom'],
+      REACT_DOM_PINNED_VERSION
+    );
+
+  if (!reactDomDependencySatisfied && !reactDomDevDependencySatisfied) {
     core.setFailed(
       `validatePackageJson | react-dom version must be set to ${REACT_DOM_PINNED_VERSION} - currently set to ${packageJson.dependencies['react-dom']}`
     );
