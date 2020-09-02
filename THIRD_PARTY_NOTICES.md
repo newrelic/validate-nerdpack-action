@@ -72,7 +72,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ### @newrelic/eslint-plugin-newrelic
 
-This product includes source derived from [@newrelic/eslint-plugin-newrelic](https://github.com/NewRelic/eslint-plugin-newrelic) ([v0.3.0](https://github.com/NewRelic/eslint-plugin-newrelic/tree/v0.3.0)), distributed under the [Apache-2.0 License](https://github.com/NewRelic/eslint-plugin-newrelic/blob/v0.3.0/LICENSE):
+This product includes source derived from [@newrelic/eslint-plugin-newrelic](https://github.com/NewRelic/eslint-plugin-newrelic) ([v0.3.1](https://github.com/NewRelic/eslint-plugin-newrelic/tree/v0.3.1)), distributed under the [Apache-2.0 License](https://github.com/NewRelic/eslint-plugin-newrelic/blob/v0.3.1/LICENSE):
 
 ```
                                  Apache License
@@ -281,7 +281,7 @@ This product includes source derived from [@newrelic/eslint-plugin-newrelic](htt
 
 ### @semantic-release/changelog
 
-This product includes source derived from [@semantic-release/changelog](https://github.com/semantic-release/changelog) ([v3.0.6](https://github.com/semantic-release/changelog/tree/v3.0.6)), distributed under the [MIT License](https://github.com/semantic-release/changelog/blob/v3.0.6/LICENSE):
+This product includes source derived from [@semantic-release/changelog](https://github.com/semantic-release/changelog) ([v5.0.1](https://github.com/semantic-release/changelog/tree/v5.0.1)), distributed under the [MIT License](https://github.com/semantic-release/changelog/blob/v5.0.1/LICENSE):
 
 ```
 MIT License
@@ -310,7 +310,7 @@ SOFTWARE.
 
 ### @semantic-release/git
 
-This product includes source derived from [@semantic-release/git](https://github.com/semantic-release/git) ([v7.0.18](https://github.com/semantic-release/git/tree/v7.0.18)), distributed under the [MIT License](https://github.com/semantic-release/git/blob/v7.0.18/LICENSE):
+This product includes source derived from [@semantic-release/git](https://github.com/semantic-release/git) ([v9.0.0](https://github.com/semantic-release/git/tree/v9.0.0)), distributed under the [MIT License](https://github.com/semantic-release/git/blob/v9.0.0/LICENSE):
 
 ```
 MIT License
