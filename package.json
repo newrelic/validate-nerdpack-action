@@ -1,6 +1,6 @@
 {
   "name": "validate-nerdpack-action",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "description": "TypeScript Template Action",
   "main": "dist/index.js",

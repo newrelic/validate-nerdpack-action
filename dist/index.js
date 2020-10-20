@@ -2030,7 +2030,6 @@ const DEFAULT_NERDPACK_FILES = [
 
   'THIRD_PARTY_NOTICES.md',
   'LICENSE',
-  'CODE_OF_CONDUCT.md',
   'CONTRIBUTING.md',
 
   '.prettierrc.js',

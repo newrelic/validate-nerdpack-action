@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/newrelic/validate-nerdpack-action/compare/v1.0.3...v1.0.4) (2020-10-20)
+
+
+### Bug Fixes
+
+* remove checking for CoC because it now comes from .github repo ([957f9a4](https://github.com/newrelic/validate-nerdpack-action/commit/957f9a4861c8271b55e7ec940fd1d1cc3618192a))
+
 ## [1.0.3](https://github.com/newrelic/validate-nerdpack-action/compare/v1.0.2...v1.0.3) (2020-09-02)
 
 
