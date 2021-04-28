@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/newrelic/validate-nerdpack-action/compare/v1.0.4...v1.0.5) (2021-04-28)
+
+
+### Bug Fixes
+
+* remove check for pinned React/React-Dom versions ([d6eddf6](https://github.com/newrelic/validate-nerdpack-action/commit/d6eddf664279f6221d83d5a6c606fd9a46534254))
+
 ## [1.0.4](https://github.com/newrelic/validate-nerdpack-action/compare/v1.0.3...v1.0.4) (2020-10-20)
 
 
