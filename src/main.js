@@ -1,14 +1,11 @@
 const core = require('@actions/core');
 const path = require('path');
 const fsp = require('fs').promises;
-const semver = require('semver');
 
 const {
   DEFAULT_NERDPACK_FILES,
   CATALOG_FILES,
-  SCREENSHOTS_DIR,
-  REACT_PINNED_VERSION,
-  REACT_DOM_PINNED_VERSION
+  SCREENSHOTS_DIR
 } = require('./constants');
 
 /**
@@ -205,9 +202,6 @@ async function validatePackageJson() {
 
     // Scripts Check
     validateScripts(packageJson);
-
-    // React pinned library check
-    validatePinnedReactVersion(packageJson);
   } catch (error) {
     core.setFailed(`Error occurred in validatePackageJson | ${error.message}`);
   }
@@ -233,52 +227,6 @@ function validateScripts(packageJson) {
   if (packageJson && !packageJson.scripts['eslint-fix']) {
     core.setFailed(
       `validatePackageJson | eslint-fix missing from package.json#scripts`
-    );
-  }
-}
-
-function validatePinnedReactVersion(packageJson) {
-  // validate `react`
-  const reactDependencySatisfied =
-    packageJson &&
-    packageJson.dependencies &&
-    packageJson.dependencies.react &&
-    semver.satisfies(packageJson.dependencies.react, REACT_PINNED_VERSION);
-
-  const reactDevDependencySatisfied =
-    packageJson &&
-    packageJson.devDependencies &&
-    packageJson.devDependencies.react &&
-    semver.satisfies(packageJson.devDependencies.react, REACT_PINNED_VERSION);
-
-  if (!reactDependencySatisfied && !reactDevDependencySatisfied) {
-    core.setFailed(
-      `validatePackageJson | react version must be set to ${REACT_PINNED_VERSION} - currently set to ${packageJson.dependencies.react}`
-    );
-  }
-
-  // validate `react-dom`
-  const reactDomDependencySatisfied =
-    packageJson &&
-    packageJson.dependencies &&
-    packageJson.dependencies['react-dom'] &&
-    semver.satisfies(
-      packageJson.dependencies['react-dom'],
-      REACT_DOM_PINNED_VERSION
-    );
-
-  const reactDomDevDependencySatisfied =
-    packageJson &&
-    packageJson.devDependencies &&
-    packageJson.devDependencies['react-dom'] &&
-    semver.satisfies(
-      packageJson.devDependencies['react-dom'],
-      REACT_DOM_PINNED_VERSION
-    );
-
-  if (!reactDomDependencySatisfied && !reactDomDevDependencySatisfied) {
-    core.setFailed(
-      `validatePackageJson | react-dom version must be set to ${REACT_DOM_PINNED_VERSION} - currently set to ${packageJson.dependencies['react-dom']}`
     );
   }
 }
